@@ -13,23 +13,18 @@ async function scrapeData() {
   
   await page.goto('https://www.karpaty.info/ua/recreation/residence/?res_type=house');
   
-  // Ожидаем загрузки данных на странице
   await page.waitForSelector('li.active.bld');
   
-  // Получаем ссылки на детальные страницы каждого коттеджа
   const links = await page.$$eval('div.objinfolink a', (elements) => {
     return elements.map((el) => el.href);
   });
 
-  // Переходим на каждую детальную страницу и получаем необходимые данные
-  const cottagesData = [];
+   const cottagesData = [];
   for (let link of links) {
     await page.goto(link);
     
-    // Ожидаем загрузки данных на странице детальной информации о коттедже
-    await page.waitForSelector('div.uheader-head');
+      await page.waitForSelector('div.uheader-head');
     
-    // Извлекаем необходимые данные
     let html = await page.evaluate(async () => {
         let page = []
 
@@ -64,13 +59,11 @@ console.log('divs' , divs);
     console.log('cottagesData',cottagesData)
   }
   
-  // Закрываем браузер
   await browser.close();
   
   return cottagesData;
 }
 
-// Запускаем функцию для получения данных
 scrapeData()
   .then((data) => console.log(data))
   .catch((error) => console.error(error));
