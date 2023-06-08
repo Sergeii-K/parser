@@ -60,7 +60,11 @@ console.log('divs' , divs);
   }
   
   await browser.close();
-  
+      fs.writeFile('home.json', JSON.stringify({'data': cottagesData}), err => {
+        if(err) throw err
+        console.log('home.json saved');
+        console.log('home.json length -', cottagesData.length);
+    });
   return cottagesData;
 }
 
